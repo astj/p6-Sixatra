@@ -3,7 +3,10 @@
     "Asato Wakisaka"
   ],
   "build-depends" : [ ],
-  "depends" : [ ],
+  "depends" : [
+    "Crust::Request",
+    "Router::Boost"
+  ],
   "description" : "Sinatra-like simple Web Application Framework",
   "name" : "Sixatra",
   "perl" : "6.c",
@@ -13,6 +16,9 @@
   },
   "resources" : [ ],
   "source-url" : "git://github.com/astj/p6-Sixatra.git",
-  "test-depends" : [ ],
+  "test-depends" : [
+    "Crust::Test",
+    "HTTP::Request"
+  ],
   "version" : "*"
 }
