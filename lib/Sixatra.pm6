@@ -3,7 +3,6 @@ unit module Sixatra;
 
 use Router::Boost;
 use Crust::Request;
-need Crust;
 
 our $ROUTER = Router::Boost.new();
 
