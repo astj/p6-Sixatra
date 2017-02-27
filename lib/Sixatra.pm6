@@ -7,15 +7,14 @@ use Crust::Request;
 our $ROUTER = Router::Boost.new();
 
 sub sixatra-app ( --> Callable) is export {
-    return -> $env {
+    return sub ($env) {
         my $req = Crust::Request.new($env);
         my $match = $ROUTER.match($req.path-info);
         with $match<stuff> {
             # TODO pass $match<captured>
-            $match<stuff>.app.();
-        } else {
-            200, [], ['heyhey'];
+            return $match<stuff>.app.();
         }
+            return 200, [], ['heyhey'];
     };
 }
 
