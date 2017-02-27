@@ -9,16 +9,16 @@ use Sixatra;
 my module Testatra {
     use Sixatra;
 
-    router ['GET'], '/', sub {
+    router ['GET'], '/users/:id', sub {
         my ($req) = @_;
-        200, [], ['getting'];
+        200, [], ['your id is ' ~ $req.captured<id>];
     };
 }
 
 test-psgi sixatra-app(), -> $cb {
-    my $req = HTTP::Request.new(GET => "/");
+    my $req = HTTP::Request.new(GET => "/users/tom");
     my $res = $cb($req);
-    is $res.content.decode, "getting";
+    is $res.content.decode, "your id is tom";
 };
 
 done-testing;

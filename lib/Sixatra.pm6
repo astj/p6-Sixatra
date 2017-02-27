@@ -2,20 +2,20 @@ use v6;
 unit module Sixatra;
 
 use Router::Boost;
-use Crust::Request;
+use Sixatra::Request;
 
 our $ROUTERS = {};
 
 sub sixatra-app ( --> Callable) is export {
     return sub ($env) {
-        my $req = Crust::Request.new($env);
+        my $req = Sixatra::Request.new($env);
         my $router = $ROUTERS{$req.method()};
 
         with $router {
             my $match = $router.match($req.path-info);
             with $match<stuff> {
-                # TODO pass $match<captured>
-                return $match<stuff>.app.();
+                $req.captured = $match<captured>;
+                return $match<stuff>.app.($req);
             }
         }
         # TODO we should return 405?
@@ -29,7 +29,6 @@ my class RoutingStaff {
 
 multi router(Array $methods, Str $path, Callable $app) is export {
     for @$methods -> $method {
-        say $method;
         router($method, $path, $app);
     }
 }
