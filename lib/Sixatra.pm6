@@ -6,7 +6,13 @@ use Sixatra::Request;
 
 our $ROUTERS = {};
 
-sub sixatra-app ( --> Callable) is export {
+multi sixatra-app (Str $package --> Callable) is export {
+    use MONKEY-SEE-NO-EVAL;
+    EVAL "use $package;";
+    sixatra-app;
+}
+
+multi sixatra-app ( --> Callable) is export {
     return sub ($env) {
         my $req = Sixatra::Request.new($env);
         my $router = $ROUTERS{$req.method()};
@@ -53,13 +59,13 @@ Sixatra - Sinatra-like simple Web Application Framework
   unit module MyApp;
   use Sixatra;
 
-  get '/', -> {
+  get '/', -> $req {
       200, [], ['hello'];
   };
 
 And run MyApp with crustup as follows:
 
-  crustup -e 'use MyApp; use Sixatra; sixatra-app;'
+  crustup -e 'use Sixatra; sixatra-app(MyApp);'
 
 =head1 DESCRIPTION
 
