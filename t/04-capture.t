@@ -9,8 +9,7 @@ use Sixatra;
 my module Testatra {
     use Sixatra;
 
-    router ['GET'], '/users/:id', sub {
-        my ($req) = @_;
+    router ['GET'], '/users/:id', -> $req {
         200, [], ['your id is ' ~ $req.captured<id>];
     };
 }

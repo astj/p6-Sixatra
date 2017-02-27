@@ -9,18 +9,15 @@ use Sixatra;
 my module Testatra {
     use Sixatra;
 
-    router 'GET', '/', sub {
-        my ($req) = @_;
+    router 'GET', '/', -> $req {
         200, [], ['getting'];
     };
 
-    get '/another', sub {
-        my ($req) = @_;
+    get '/another', -> $req {
         200, [], ['getting another'];
     };
 
-    router 'PATCH', '/', sub {
-        my ($req) = @_;
+    router 'PATCH', '/', -> $req {
         200, [], ['patched'];
     };
 }

@@ -11,13 +11,13 @@ SYNOPSIS
     unit module MyApp;
     use Sixatra;
 
-    get '/', -> {
+    get '/', -> $req {
         200, [], ['hello'];
     };
 
 And run MyApp with crustup as follows:
 
-    crustup -e 'use MyApp; use Sixatra; sixatra-app;'
+    crustup -e 'use Sixatra; sixatra-app(MyApp);'
 
 DESCRIPTION
 ===========
