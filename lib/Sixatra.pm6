@@ -48,6 +48,10 @@ sub get(Str $path, Callable $app) is export {
     router ["GET", "HEAD"], $path, $app;
 }
 
+sub post(Str $path, Callable $app) is export {
+    router "POST", $path, $app;
+}
+
 =begin pod
 
 =head1 NAME
