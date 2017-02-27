@@ -5,6 +5,7 @@
   "build-depends" : [ ],
   "depends" : [
     "Crust::Request",
+    "Crust::Response",
     "Router::Boost"
   ],
   "description" : "Sinatra-like simple Web Application Framework",

@@ -3,6 +3,7 @@ unit module Sixatra;
 
 use Router::Boost;
 use Sixatra::Request;
+need Crust::Response;
 
 our $ROUTERS = {};
 
@@ -21,7 +22,10 @@ multi sixatra-app ( --> Callable) is export {
             my $match = $router.match($req.path-info);
             with $match<stuff> {
                 $req.captured = $match<captured>;
-                return $match<stuff>.app.($req);
+                given $match<stuff>.app.($req) {
+                    when Crust::Response { return .finalize }
+                    default { return $_ }
+                }
             }
         }
         # TODO we should return 405?
