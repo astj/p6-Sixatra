@@ -12,7 +12,7 @@
     "Sixatra::Request" : "lib/Sixatra/Request.pm6"
   },
   "resources" : [ ],
-  "source-url" : "",
+  "source-url" : "git://github.com/astj/p6-Sixatra.git",
   "test-depends" : [ ],
   "version" : "*"
 }

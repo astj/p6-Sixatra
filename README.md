@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/astj/p6-Sixatra.svg?branch=master)](https://travis-ci.org/astj/p6-Sixatra)
+
 NAME
 ====
 
