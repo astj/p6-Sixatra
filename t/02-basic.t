@@ -17,7 +17,7 @@ my module Testatra {
 test-psgi sixatra-app(), -> $cb {
     my $req = HTTP::Request.new(GET => "/");
     my $res = $cb($req);
-    is $res.content, "getting".encode;
+    is $res.content.decode, "getting";
 };
 
 done-testing;

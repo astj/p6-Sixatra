@@ -4,17 +4,22 @@ unit module Sixatra;
 use Router::Boost;
 use Crust::Request;
 
-our $ROUTER = Router::Boost.new();
+our $ROUTERS = {};
 
 sub sixatra-app ( --> Callable) is export {
     return sub ($env) {
         my $req = Crust::Request.new($env);
-        my $match = $ROUTER.match($req.path-info);
-        with $match<stuff> {
-            # TODO pass $match<captured>
-            return $match<stuff>.app.();
+        my $router = $ROUTERS{$req.method()};
+
+        with $router {
+            my $match = $router.match($req.path-info);
+            with $match<stuff> {
+                # TODO pass $match<captured>
+                return $match<stuff>.app.();
+            }
         }
-            return 200, [], ['heyhey'];
+        # TODO we should return 405?
+        return 404, [], ['Not Found'];
     };
 }
 
@@ -24,7 +29,10 @@ my class RoutingStaff {
 };
 
 sub router(Array $methods, Str $path, Callable $app) is export {
-    $ROUTER.add($path, RoutingStaff.new(:$methods, :$app));
+    for $methods -> $method {
+        $ROUTERS{$method} //= Router::Boost.new;
+        $ROUTERS{$method}.add($path, RoutingStaff.new(:$methods, :$app));
+    }
 }
 
 =begin pod
