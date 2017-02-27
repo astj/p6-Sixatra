@@ -4,7 +4,7 @@
   ],
   "build-depends" : [ ],
   "depends" : [ ],
-  "description" : "blah blah blah",
+  "description" : "Sinatra-like simple Web Application Framework",
   "name" : "Sixatra",
   "perl" : "6.c",
   "provides" : {

@@ -1,16 +1,52 @@
 use v6;
-unit class Sixatra;
+unit module Sixatra;
 
+use Router::Boost;
+use Crust::Request;
+need Crust;
+
+our $ROUTER = Router::Boost.new();
+
+sub sixatra-app ( --> Callable) is export {
+    return -> $env {
+        my $req = Crust::Request.new($env);
+        my $match = $ROUTER.match($req.path-info);
+        with $match<stuff> {
+            # TODO pass $match<captured>
+            $match<stuff>.app.();
+        } else {
+            200, [], ['heyhey'];
+        }
+    };
+}
+
+my class RoutingStaff {
+    has Array $.methods;
+    has Callable $.app;
+};
+
+sub router(Array $methods, Str $path, Callable $app) is export {
+    $ROUTER.add($path, RoutingStaff.new(:$methods, :$app));
+}
 
 =begin pod
 
 =head1 NAME
 
-Sixatra - blah blah blah
+Sixatra - Sinatra-like simple Web Application Framework
 
 =head1 SYNOPSIS
 
+  unit module MyApp;
   use Sixatra;
+
+  get '/', -> {
+      200, [], ['hello'];
+  };
+
+And run MyApp with crustup as follows:
+
+  crustup -e 'use MyApp; use Sixatra; sixatra-app;'
 
 =head1 DESCRIPTION
 

@@ -1,12 +1,21 @@
 NAME
 ====
 
-Sixatra - blah blah blah
+Sixatra - Sinatra-like simple Web Application Framework
 
 SYNOPSIS
 ========
 
+    unit module MyApp;
     use Sixatra;
+
+    get '/', -> {
+        200, [], ['hello'];
+    };
+
+And run MyApp with crustup as follows:
+
+    crustup -e 'use MyApp; use Sixatra; sixatra-app;'
 
 DESCRIPTION
 ===========
