@@ -24,15 +24,23 @@ sub sixatra-app ( --> Callable) is export {
 }
 
 my class RoutingStaff {
-    has Array $.methods;
     has Callable $.app;
 };
 
-sub router(Array $methods, Str $path, Callable $app) is export {
-    for $methods -> $method {
-        $ROUTERS{$method} //= Router::Boost.new;
-        $ROUTERS{$method}.add($path, RoutingStaff.new(:$methods, :$app));
+multi router(Array $methods, Str $path, Callable $app) is export {
+    for @$methods -> $method {
+        say $method;
+        router($method, $path, $app);
     }
+}
+
+multi router(Str $method, Str $path, Callable $app) is export {
+    $ROUTERS{$method} //= Router::Boost.new;
+    $ROUTERS{$method}.add($path, RoutingStaff.new(:$app));
+}
+
+sub get(Str $path, Callable $app) is export {
+    router ["GET", "HEAD"], $path, $app;
 }
 
 =begin pod
