@@ -28,7 +28,7 @@ multi sixatra-app ( --> Callable) is export {
                 }
             }
         }
-        # TODO we should return 405?
+        # we should check routers for other methods to return 405?
         return 404, [], ['Not Found'];
     };
 }
