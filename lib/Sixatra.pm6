@@ -3,6 +3,7 @@ unit module Sixatra;
 
 use Router::Boost::Method;
 use Sixatra::Request;
+use Sixatra::Connection;
 need Crust::Response;
 
 our $ROUTER = Router::Boost::Method.new;
@@ -20,8 +21,8 @@ multi sixatra-app ( --> Callable) is export {
         my $match = $ROUTER.match($req.method, $req.path-info);
         return 405, [], ['Method Not Allowed'] if $match<is-method-not-allowed>;
         with $match<stuff> {
-            $req.captured = $match<captured>;
-            given $match<stuff>.app.($req) {
+            my $c = Sixatra::Connection.new(:$req, :params($match<captured>));
+            given $match<stuff>.app.($c) {
                 when Crust::Response { return .finalize }
                 default { return $_ }
             }

@@ -9,15 +9,15 @@ use Sixatra;
 my module Testatra {
     use Sixatra;
 
-    router 'GET', '/', -> $req {
+    router 'GET', '/', -> $c {
         200, [], ['getting'];
     };
 
-    get '/another', -> $req {
+    get '/another', -> $c {
         200, [], ['getting another'];
     };
 
-    router 'PATCH', '/', -> $req {
+    router 'PATCH', '/', -> $c {
         200, [], ['patched'];
     };
 }

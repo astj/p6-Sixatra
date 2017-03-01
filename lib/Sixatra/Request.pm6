@@ -5,7 +5,6 @@ use Crust::Utils;
 
 unit class Sixatra::Request is Crust::Request;
 
-has Hash $.captured is rw;
 has Bool $!has-parsed-body = False;
 has Hash $.env;
 

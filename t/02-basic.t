@@ -9,7 +9,7 @@ use Sixatra;
 my module Testatra {
     use Sixatra;
 
-    router ['GET'], '/', -> $req {
+    router ['GET'], '/', -> $c {
         200, [], ['getting'];
     };
 }
