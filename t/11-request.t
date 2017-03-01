@@ -13,6 +13,7 @@ use Sixatra::Request;
         :CONTENT_TYPE<application/x-www-form-urlencoded>
     });
     is $req.body-parameters.('key'), 'val';
+    is $req.env<crust.request.body>.('key'), 'val';
 }
 
 {
@@ -23,7 +24,8 @@ use Sixatra::Request;
         :HTTP_USER_AGENT<hoge>,
         :CONTENT_TYPE<application/json>
     });
-    is $req.body-parameters.('jsonkey').join(', '), 'val1, val2'
+    is $req.body-parameters.('jsonkey').join(', '), 'val1, val2';
+    is $req.env<crust.request.body>.('jsonkey').join(', '), 'val1, val2';
 }
 
 {
@@ -35,6 +37,7 @@ use Sixatra::Request;
         :CONTENT_TYPE<application/json>
     });
     is $req.body-parameters.keys, [];
+    is $req.env<crust.request.body>.keys, [];
 }
 
 done-testing;
