@@ -16,14 +16,16 @@ method body-parameters() {
     if self.content-type {
         my ($type) = parse-header-item(self.content-type);
         if $type eq 'application/json' {
-            my %h = from-json(self.content.decode('ascii'));
-            CATCH {
-                # ignore malformed json
-                when X::JSON::Tiny::Invalid {
-                    return $!env<crust.request.body> = Hash::MultiValue.new;
+            return $!env<crust.request.body> = do {
+                my %h = from-json(self.content.decode('ascii'));
+                CATCH {
+                    # ignore malformed json
+                    when X::JSON::Tiny::Invalid {
+                        Hash::MultiValue.new;
+                    }
                 }
+                Hash::MultiValue.from-mixed-hash(%h);
             }
-            return $!env<crust.request.body> = Hash::MultiValue.from-mixed-hash(%h);
         }
     }
     nextsame;
