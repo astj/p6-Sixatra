@@ -6,7 +6,7 @@
   "depends" : [
     "Crust::Request",
     "Crust::Response",
-    "Router::Boost"
+    "Router::Boost::Method"
   ],
   "description" : "Sinatra-like simple Web Application Framework",
   "name" : "Sixatra",

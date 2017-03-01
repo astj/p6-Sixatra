@@ -1,11 +1,11 @@
 use v6;
 unit module Sixatra;
 
-use Router::Boost;
+use Router::Boost::Method;
 use Sixatra::Request;
 need Crust::Response;
 
-our $ROUTERS = {};
+our $ROUTER = Router::Boost::Method.new;
 
 multi sixatra-app (Str $package --> Callable) is export {
     use MONKEY-SEE-NO-EVAL;
@@ -16,19 +16,16 @@ multi sixatra-app (Str $package --> Callable) is export {
 multi sixatra-app ( --> Callable) is export {
     return sub ($env) {
         my $req = Sixatra::Request.new($env);
-        my $router = $ROUTERS{$req.method()};
 
-        with $router {
-            my $match = $router.match($req.path-info);
-            with $match<stuff> {
-                $req.captured = $match<captured>;
-                given $match<stuff>.app.($req) {
-                    when Crust::Response { return .finalize }
-                    default { return $_ }
-                }
+        my $match = $ROUTER.match($req.method, $req.path-info);
+        return 405, [], ['Method Not Allowed'] if $match<is-method-not-allowed>;
+        with $match<stuff> {
+            $req.captured = $match<captured>;
+            given $match<stuff>.app.($req) {
+                when Crust::Response { return .finalize }
+                default { return $_ }
             }
         }
-        # we should check routers for other methods to return 405?
         return 404, [], ['Not Found'];
     };
 }
@@ -38,14 +35,11 @@ my class RoutingStaff {
 };
 
 multi router(Array $methods, Str $path, Callable $app) is export {
-    for @$methods -> $method {
-        router($method, $path, $app);
-    }
+    $ROUTER.add(@$methods, $path, RoutingStaff.new(:$app));
 }
 
 multi router(Str $method, Str $path, Callable $app) is export {
-    $ROUTERS{$method} //= Router::Boost.new;
-    $ROUTERS{$method}.add($path, RoutingStaff.new(:$app));
+    router([$method], $path, $app);
 }
 
 sub get(Str $path, Callable $app) is export {

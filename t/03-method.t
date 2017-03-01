@@ -31,6 +31,12 @@ my $test = Crust::Test.create(sixatra-app());
 }
 
 {
+    my $req = HTTP::Request.new(GET => "/nop");
+    my $res = $test.request($req);
+    is $res.code, 404;
+}
+
+{
     my $req = HTTP::Request.new(GET => "/another");
     my $res = $test.request($req);
     is $res.content.decode, "getting another";
@@ -45,7 +51,7 @@ my $test = Crust::Test.create(sixatra-app());
 {
     my $req = HTTP::Request.new(POST => "/another");
     my $res = $test.request($req);
-    is $res.code, 404;
+    is $res.code, 405;
 }
 
 {
@@ -57,7 +63,7 @@ my $test = Crust::Test.create(sixatra-app());
 {
     my $req = HTTP::Request.new(HEAD => "/");
     my $res = $test.request($req);
-    is $res.code, 404;
+    is $res.code, 405;
 }
 
 done-testing;
