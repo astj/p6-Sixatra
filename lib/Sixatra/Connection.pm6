@@ -9,7 +9,7 @@ use Crust::Response;
 has Sixatra::Request $.req;
 has Hash $.params;
 
-method render(Str $filename, *@args) {
+method render(Str $filename, *@args --> Crust::Response) {
     my $body = Template::Mojo.from-file($filename).render(|@args);
     my $headers = Hash::MultiValue.from-mixed-hash(
         Content-Type => 'text/html; charset=UTF-8'
