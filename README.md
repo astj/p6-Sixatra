@@ -17,7 +17,7 @@ SYNOPSIS
 
 And run MyApp with crustup as follows:
 
-    crustup -e 'use Sixatra; sixatra-app(MyApp);'
+    crustup -e 'use Sixatra; sixatra-app("MyApp");'
 
 DESCRIPTION
 ===========

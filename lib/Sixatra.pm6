@@ -68,7 +68,7 @@ Sixatra - Sinatra-like simple Web Application Framework
 
 And run MyApp with crustup as follows:
 
-  crustup -e 'use Sixatra; sixatra-app(MyApp);'
+  crustup -e 'use Sixatra; sixatra-app("MyApp");'
 
 =head1 DESCRIPTION
 
