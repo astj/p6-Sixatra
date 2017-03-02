@@ -7,7 +7,8 @@
     "Crust::Request",
     "Crust::Response",
     "Router::Boost::Method",
-    "JSON::Tiny"
+    "JSON::Tiny",
+    "Template::Mojo"
   ],
   "description" : "Sinatra-like simple Web Application Framework",
   "name" : "Sixatra",
