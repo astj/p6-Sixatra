@@ -15,4 +15,12 @@ use Sixatra::Connection;
     END
 }
 
+{
+    my $c = Sixatra::Connection.new;
+    my $res = $c.render-json({ a => [1, 2], b => "c" });
+    is $res.status, 200;
+    is $res.headers, [:Content-Type<application/json>];
+    is $res.body, [q/{ "a" : [ 1, 2 ], "b" : "c" }/];
+}
+
 done-testing;
