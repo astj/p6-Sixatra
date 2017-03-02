@@ -11,7 +11,7 @@ SYNOPSIS
     unit module MyApp;
     use Sixatra;
 
-    get '/', -> $req {
+    get '/', -> $c {
         200, [], ['hello'];
     };
 
