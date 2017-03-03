@@ -28,3 +28,10 @@ method render-json($object --> Crust::Response) {
         :body([to-json($object)])
     );
 }
+
+method redirect(Str $location, Int $status = 302 --> Crust::Response){
+    my $headers = Hash::MultiValue.from-mixed-hash(
+        Location => $location
+    );
+    Crust::Response.new(:status($status), :headers(Array($headers.all-pairs)), :body([]));
+}
