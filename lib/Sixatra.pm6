@@ -1,10 +1,11 @@
 use v6;
 unit module Sixatra;
 
+use Crust::Response;
 use Router::Boost::Method;
+
 use Sixatra::Request;
 use Sixatra::Connection;
-need Crust::Response;
 
 our $ROUTER = Router::Boost::Method.new;
 
@@ -22,10 +23,17 @@ multi sixatra-app ( --> Callable) is export {
         return 405, [], ['Method Not Allowed'] if $match<is-method-not-allowed>;
         with $match<stuff> {
             my $c = Sixatra::Connection.new(:$req, :params($match<captured>));
-            given $match<stuff>.app.($c) {
-                when Crust::Response { return .finalize }
-                default { return $_ }
+            my $res = $match<stuff>.app.($c);
+            # If response is not Crust::Response, convert.
+            if $res !~~ Crust::Response {
+                given $res {
+                    when Array { return $res; } # Seems raw PSGI Response
+                    when Int { $res = Crust::Response.new(:status($res), :headers([]), :body([])); }
+                    when Str { $res = Crust::Response.new(:status(200), :headers([]), :body([$res])); }
+                    default { return 500, [], ['Unexpected response!']; }
+                }
             }
+            return $res.finalize;
         }
         return 404, [], ['Not Found'];
     };
