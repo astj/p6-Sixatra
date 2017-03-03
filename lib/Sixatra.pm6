@@ -55,7 +55,7 @@ sub post(Str $path, Callable $app) is export {
 
 =head1 NAME
 
-Sixatra - Sinatra-like simple Web Application Framework
+Sixatra - 🦋 Sinatra-like simple Web Application Framework 🐯
 
 =head1 SYNOPSIS
 

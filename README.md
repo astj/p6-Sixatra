@@ -3,7 +3,7 @@
 NAME
 ====
 
-Sixatra - Sinatra-like simple Web Application Framework
+Sixatra - 🦋 Sinatra-like simple Web Application Framework 🐯
 
 SYNOPSIS
 ========

@@ -10,7 +10,7 @@
     "JSON::Tiny",
     "Template::Mojo"
   ],
-  "description" : "Sinatra-like simple Web Application Framework",
+  "description" : "\u1f98b Sinatra-like simple Web Application Framework \u1f42f",
   "name" : "Sixatra",
   "perl" : "6.c",
   "provides" : {
