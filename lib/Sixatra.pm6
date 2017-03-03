@@ -27,7 +27,7 @@ multi sixatra-app ( --> Callable) is export {
             # If response is not Crust::Response, convert.
             if $res !~~ Crust::Response {
                 given $res {
-                    when Array { return $res; } # Seems raw PSGI Response
+                    when List { return $res; } # Seems raw PSGI Response
                     when Int { $res = Crust::Response.new(:status($res), :headers([]), :body([])); }
                     when Str { $res = Crust::Response.new(:status(200), :headers([]), :body([$res])); }
                     default { return 500, [], ['Unexpected response!']; }

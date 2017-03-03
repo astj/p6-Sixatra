@@ -9,15 +9,27 @@ use Sixatra;
 my module Testatra {
     use Sixatra;
 
-    router ['GET'], '/', -> $c {
-        200, [], ['getting'];
+    router ['GET'], '/list', -> $c {
+        200, [], ['list'];
+    };
+
+    router ['GET'], '/array', -> $c {
+        [200, [], ['array']];
     };
 }
 
-test-psgi sixatra-app(), -> $cb {
-    my $req = HTTP::Request.new(GET => "/");
-    my $res = $cb($req);
-    is $res.content.decode, "getting";
-};
+my $test = Crust::Test.create(sixatra-app());
+
+{
+    my $req = HTTP::Request.new(GET => "/list");
+    my $res = $test.request($req);
+    is $res.content.decode, "list";
+}
+
+{
+    my $req = HTTP::Request.new(GET => "/array");
+    my $res = $test.request($req);
+    is $res.content.decode, "array";
+}
 
 done-testing;
