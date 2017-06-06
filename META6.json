@@ -4,8 +4,7 @@
   ],
   "build-depends" : [ ],
   "depends" : [
-    "Crust::Request",
-    "Crust::Response",
+    "Crust",
     "Router::Boost::Method",
     "JSON::Tiny",
     "Template::Mojo"
@@ -21,7 +20,6 @@
   "resources" : [ ],
   "source-url" : "git://github.com/astj/p6-Sixatra.git",
   "test-depends" : [
-    "Crust::Test",
     "HTTP::Request"
   ],
   "version" : "*"
